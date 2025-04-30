@@ -81,9 +81,12 @@ function collectInterfaces(
       });
 
       const extendsInterfaces = interfaces
-        .filter(docs => i.extends.includes(docs.name)).map(i => i.methods);
+        .filter(docs => i.extends.includes(docs.name));
       if (extendsInterfaces.length > 0) {
-        i.methods = i.methods.concat(extendsInterfaces.flat(1)).filter((elem, index, self) =>  {
+        i.methods = i.methods.concat(extendsInterfaces.map(i => i.methods).flat(1)).filter((elem, index, self) =>  {
+          return self.indexOf(elem) === index;
+        });
+        i.properties = i.properties.concat(extendsInterfaces.map(i => i.properties).flat(1)).filter((elem, index, self) =>  {
           return self.indexOf(elem) === index;
         });
       }
