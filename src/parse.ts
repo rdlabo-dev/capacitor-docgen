@@ -15,7 +15,7 @@ import type {
 } from './types';
 import { getTsProgram } from './transpile';
 import GithubSlugger from 'github-slugger';
-import { formatMethodSignatureForSlug } from './formatting';
+import { formatMethodSignature } from './formatting';
 
 /**
  * Given either a tsconfig file path, or exact input files, will
@@ -38,21 +38,7 @@ export function parse(opts: DocsParseOptions) {
   });
 
   return (api: string) => {
-    let apiInterface = interfaces.find((i) => i.name === api) || null;
-
-    /**
-     * Add methods of import(many is used in `extends`)
-     */
-    const allImportObject = interfaces
-      .filter((i) => apiInterface?.importObject.includes(i.name) && i.name !== api)
-      .map((i) => i.importObject);
-
-    const otherMethod =
-      interfaces.filter((i) => [...new Set(allImportObject.flat())].includes(i.name)).map((d) => d.methods) || null;
-
-    if (apiInterface !== null && otherMethod && otherMethod.length > 0) {
-      apiInterface.methods = [...new Set(apiInterface?.methods.concat(otherMethod.flat(1)))];
-    }
+    const apiInterface = interfaces.find((i) => i.name === api) || null;
 
     const data: DocsData = {
       api: apiInterface,
@@ -75,7 +61,7 @@ function collectInterfaces(
   i: DocsInterface,
   interfaces: DocsInterface[],
   typeAliases: DocsTypeAlias[],
-  enums: DocsEnum[]
+  enums: DocsEnum[],
 ) {
   if (i.name !== data.api?.name && !data.interfaces.some((di) => di.name === i.name)) {
     const tags = i.tags.filter(tag => tag.name === 'extends' && tag.text?.trim()).map(tag => tag.text?.trim());
@@ -101,7 +87,7 @@ function collectUsed(
   complexTypes: string[],
   interfaces: DocsInterface[],
   typeAliases: DocsTypeAlias[],
-  enums: DocsEnum[]
+  enums: DocsEnum[],
 ) {
   complexTypes.forEach((typeName) => {
     const fi = interfaces.find((i) => i.name === typeName);
@@ -129,7 +115,7 @@ function parseSourceFile(
   interfaces: DocsInterface[],
   typeAliases: DocsTypeAlias[],
   enums: DocsEnum[],
-  pluginConfigs: DocsInterface[]
+  pluginConfigs: DocsInterface[],
 ) {
   const statements = tsSourceFile.statements;
   const interfaceDeclarations = statements.filter(ts.isInterfaceDeclaration);
@@ -177,9 +163,6 @@ function getInterface(typeChecker: ts.TypeChecker, node: ts.InterfaceDeclaration
   const symbol = typeChecker.getSymbolAtLocation(node.name);
   const docs = symbol ? serializeSymbol(typeChecker, symbol) : null;
 
-  // @ts-ignore
-  const importObject = node.parent?.locals?.keys() || [];
-
   const i: DocsInterface = {
     name: interfaceName,
     slug: slugify(interfaceName),
@@ -187,7 +170,6 @@ function getInterface(typeChecker: ts.TypeChecker, node: ts.InterfaceDeclaration
     tags: docs?.tags || [],
     methods,
     properties,
-    importObject: [...importObject].filter((d: string) => d !== interfaceName),
   };
 
   return i;
@@ -285,7 +267,7 @@ function getInterfaceMethod(typeChecker: ts.TypeChecker, methodSignature: ts.Met
   const returnTypeNode = typeChecker.typeToTypeNode(
     returnType,
     methodSignature,
-    ts.NodeBuilderFlags.NoTruncation | ts.NodeBuilderFlags.NoTypeReduction
+    ts.NodeBuilderFlags.NoTruncation | ts.NodeBuilderFlags.NoTypeReduction,
   );
   const returnString = typeToString(typeChecker, returnType);
   const signatureString = typeChecker.signatureToString(signature, methodSignature, flags, ts.SignatureKind.Call);
@@ -315,7 +297,7 @@ function getInterfaceMethod(typeChecker: ts.TypeChecker, methodSignature: ts.Met
     slug: '',
   };
 
-  m.slug = slugify(formatMethodSignatureForSlug(m));
+  m.slug = slugify(formatMethodSignature(m));
 
   return m;
 }
@@ -346,7 +328,7 @@ function getInterfaceProperty(typeChecker: ts.TypeChecker, properytSignature: ts
 function getPluginsConfig(
   typeChecker: ts.TypeChecker,
   moduleDeclaration: ts.ModuleDeclaration,
-  pluginConfigs: DocsConfigInterface[]
+  pluginConfigs: DocsConfigInterface[],
 ) {
   const body = moduleDeclaration.body as ts.ModuleBlock;
   if (!Array.isArray(body.statements)) {
@@ -355,7 +337,7 @@ function getPluginsConfig(
 
   const pluginConfigInterfaces = body.statements.filter(
     (s: ts.InterfaceDeclaration) =>
-      s?.name?.text === 'PluginsConfig' && Array.isArray(s?.members) && s.members.length > 0
+      s?.name?.text === 'PluginsConfig' && Array.isArray(s?.members) && s.members.length > 0,
   ) as ts.InterfaceDeclaration[];
 
   pluginConfigInterfaces.forEach((pluginConfigInterface) => {
