@@ -82,9 +82,11 @@ function collectInterfaces(
 
       const extendsInterfaces = interfaces
         .filter(docs => i.extends.includes(docs.name)).map(i => i.methods);
-      i.methods = i.methods.concat(extendsInterfaces.flat(1)).filter((elem, index, self) =>  {
-        return self.indexOf(elem) === index;
-      });
+      if (extendsInterfaces.length > 0) {
+        i.methods = i.methods.concat(extendsInterfaces.flat(1)).filter((elem, index, self) =>  {
+          return self.indexOf(elem) === index;
+        });
+      }
     }
     data.interfaces.push(i);
   }
