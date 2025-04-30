@@ -1,4 +1,4 @@
-# @capacitor/docgen
+# @rdlabo/capacitor-docgen
 
 Docs Readme Markdown and JSON Generator for [Capacitor](https://capacitorjs.com/) Plugins.
 
@@ -10,7 +10,7 @@ Docs Readme Markdown and JSON Generator for [Capacitor](https://capacitorjs.com/
 - If you're looking for an entire docs site generator we recommend [TypeDoc](https://typedoc.org/) instead
 
 ```bash
-npm i @capacitor/docgen --save-dev
+npm i @rdlabo/capacitor-docgen --save-dev
 ```
 
 ## Example Readme File
@@ -47,7 +47,7 @@ docs can also be linked to and shared.
 
 ## CLI
 
-The easiest way to run `docgen` is to install `@capacitor/docgen` as a dev dependency
+The easiest way to run `docgen` is to install `@rdlabo/capacitor-docgen` as a dev dependency
 and add the command to the `package.json` scripts. In the example below, 
 `HapticsPlugin` is the primary interface:
 
@@ -75,7 +75,7 @@ docgen --api HapticsPlugin --output-readme README.md
 
 ## API
 
-The same API that's available to the CLI can also be imported from `@capacitor/docgen`.
+The same API that's available to the CLI can also be imported from `@rdlabo/capacitor-docgen`.
 
 
 ## Related
