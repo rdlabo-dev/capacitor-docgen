@@ -18,6 +18,7 @@ export interface DocsInterface {
   slug: string;
   docs: string;
   tags: DocsTagInfo[];
+  extends: string[];
   methods: DocsInterfaceMethod[];
   properties: DocsInterfaceProperty[];
 }

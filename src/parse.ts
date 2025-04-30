@@ -64,10 +64,25 @@ function collectInterfaces(
   enums: DocsEnum[],
 ) {
   if (i.name !== data.api?.name && !data.interfaces.some((di) => di.name === i.name)) {
-    const tags = i.tags.filter(tag => tag.name === 'extends' && tag.text?.trim()).map(tag => tag.text?.trim());
-    if (tags.length > 0) {
-      const extendsInterfaces = interfaces.filter(i => [...new Set(tags)].includes(i.name)).map(i => i.properties);
-      i.properties = i.properties.concat(extendsInterfaces.flat(1)).filter((elem, index, self) =>  {
+    if (i.extends.length > 0) {
+      i.extends = i.extends.flatMap(e => {
+        if (interfaces.some((i) => i.name === e)) {
+          return e;
+        }
+        const ti = typeAliases.find(t => t.name === e);
+        if (ti === undefined) {
+          return e;
+        }
+        const complexTypes = ti.types.map(type => type.complexTypes).flat()
+        if (complexTypes.length === 0) {
+          return e;
+        }
+        return complexTypes;
+      });
+
+      const extendsInterfaces = interfaces
+        .filter(docs => i.extends.includes(docs.name)).map(i => i.methods);
+      i.methods = i.methods.concat(extendsInterfaces.flat(1)).filter((elem, index, self) =>  {
         return self.indexOf(elem) === index;
       });
     }
@@ -144,6 +159,11 @@ function parseSourceFile(
 
 function getInterface(typeChecker: ts.TypeChecker, node: ts.InterfaceDeclaration) {
   const interfaceName = node.name.text;
+
+  const heritage = node.heritageClauses?.map(clause => {
+    return clause.types.map(t => t.expression.getText());
+  }).flat() || []
+
   const methods = node.members.filter(ts.isMethodSignature).reduce((methods, methodSignature) => {
     const m = getInterfaceMethod(typeChecker, methodSignature);
     if (m) {
@@ -168,6 +188,7 @@ function getInterface(typeChecker: ts.TypeChecker, node: ts.InterfaceDeclaration
     slug: slugify(interfaceName),
     docs: docs?.docs || '',
     tags: docs?.tags || [],
+    extends: heritage || [],
     methods,
     properties,
   };
