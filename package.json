@@ -60,6 +60,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ionic-team/capacitor-docgen.git"
+    "url": "git+https://github.com/rdlabo-team/capacitor-docgen.git"
   }
 }
