@@ -63,34 +63,35 @@ function collectInterfaces(
   typeAliases: DocsTypeAlias[],
   enums: DocsEnum[],
 ) {
-  if (i.name !== data.api?.name && !data.interfaces.some((di) => di.name === i.name)) {
-    if (i.extends.length > 0) {
-      i.extends = i.extends.flatMap(e => {
-        if (interfaces.some((i) => i.name === e)) {
-          return e;
-        }
-        const ti = typeAliases.find(t => t.name === e);
-        if (ti === undefined) {
-          return e;
-        }
-        const complexTypes = ti.types.map(type => type.complexTypes).flat()
-        if (complexTypes.length === 0) {
-          return e;
-        }
-        return complexTypes;
-      });
-
-      const extendsInterfaces = interfaces
-        .filter(docs => i.extends.includes(docs.name));
-      if (extendsInterfaces.length > 0) {
-        i.methods = i.methods.concat(extendsInterfaces.map(i => i.methods).flat(1)).filter((elem, index, self) =>  {
-          return self.indexOf(elem) === index;
-        });
-        i.properties = i.properties.concat(extendsInterfaces.map(i => i.properties).flat(1)).filter((elem, index, self) =>  {
-          return self.indexOf(elem) === index;
-        });
+  if (i.extends.length > 0) {
+    i.extends = i.extends.flatMap(e => {
+      if (interfaces.some((i) => i.name === e)) {
+        return e;
       }
+      const ti = typeAliases.find(t => t.name === e);
+      if (ti === undefined) {
+        return e;
+      }
+      const complexTypes = ti.types.map(type => type.complexTypes).flat()
+      if (complexTypes.length === 0) {
+        return e;
+      }
+      return complexTypes;
+    });
+
+    const extendsInterfaces = interfaces
+      .filter(docs => i.extends.includes(docs.name));
+    if (extendsInterfaces.length > 0) {
+      i.methods = i.methods.concat(extendsInterfaces.map(i => i.methods).flat(1)).filter((elem, index, self) =>  {
+        return self.indexOf(elem) === index;
+      });
+      i.properties = i.properties.concat(extendsInterfaces.map(i => i.properties).flat(1)).filter((elem, index, self) =>  {
+        return self.indexOf(elem) === index;
+      });
     }
+  }
+
+  if (i.name !== data.api?.name && !data.interfaces.some((di) => di.name === i.name)) {
     data.interfaces.push(i);
   }
 
