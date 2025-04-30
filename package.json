@@ -8,7 +8,7 @@
     "capacitor",
     "capacitor plugins"
   ],
-  "author": "Ionic Team",
+  "author": "Masahiko Sakakibara<sakakibara@rdlabo.jp>",
   "homepage": "https://capacitorjs.com/",
   "bin": {
     "docgen": "bin/docgen"
