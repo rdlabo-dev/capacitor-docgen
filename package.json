@@ -61,6 +61,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rdlabo-team/capacitor-docgen.git"
+    "url": "git+https://github.com/rdlabo-dev/capacitor-docgen.git"
   }
 }

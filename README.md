@@ -41,8 +41,8 @@ page for the Github repo and NPM package, and the anchors within the
 docs can also be linked to and shared.
 ```
 
-- [Example Readme Output](https://github.com/rdlabo-team/capacitor-docgen/blob/main/src/test/README.md)
-- [Example JSON Output](https://github.com/rdlabo-team/capacitor-docgen/blob/main/src/test/docs.json)
+- [Example Readme Output](https://github.com/rdlabo-dev/capacitor-docgen/blob/main/src/test/README.md)
+- [Example JSON Output](https://github.com/rdlabo-dev/capacitor-docgen/blob/main/src/test/docs.json)
 
 
 ## Extension jsdoc

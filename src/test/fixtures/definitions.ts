@@ -34,7 +34,7 @@ declare module '@capacitor/cli' {
  * is generated from comments from its methods, interfaces
  * and enums.
  *
- * Take a look at the test [HapticsPlugin interface source file](https://github.com/rdlabo-team/capacitor-docgen/blob/master/src/test/fixtures/definitions.ts).
+ * Take a look at the test [HapticsPlugin interface source file](https://github.com/rdlabo-dev/capacitor-docgen/blob/master/src/test/fixtures/definitions.ts).
  */
 export interface HapticsPlugin {
   /**
