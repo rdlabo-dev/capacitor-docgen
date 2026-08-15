@@ -2,6 +2,8 @@
 
 Docs Readme Markdown and JSON Generator for [Capacitor](https://capacitorjs.com/) Plugins.
 
+**Documentation:** [Read the full documentation](https://docs.rdlabo.dev/projects/capacitor-docgen)
+
 - Designed specifically for generating docs for Capacitor plugins using TypeScript
 - Generates docs data pulled from [JSDocs](https://en.wikipedia.org/wiki/JSDoc) within source code 
 - Replaces placeholders within existing README.md markdown files with the generated docs
