@@ -48,7 +48,7 @@ With the fork, the generated `CreateOptions` table contains both `value` and `re
 
 The released fork README says to add an `@extends` JSDoc tag. That instruction is stale for v0.4.1: the implementation reads the TypeScript heritage clause directly and does not use the tag to resolve inheritance. Write valid TypeScript `extends`; an `@extends` tag is not required.
 
-See [Differences from upstream](./upstream-differences) for the exact changed surfaces and current limitations.
+See [Differences from upstream](./docs/upstream-differences.md) for the exact changed surfaces and current limitations.
 
 ## Pinned sources
 
