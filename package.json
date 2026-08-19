@@ -31,7 +31,8 @@
   },
   "license": "MIT",
   "files": [
-    "dist/"
+    "dist/",
+    "docs/"
   ],
   "dependencies": {
     "colorette": "^2.0.20",
