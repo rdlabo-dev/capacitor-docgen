@@ -102,3 +102,9 @@ The same API that's available to the CLI can also be imported from `@rdlabo/capa
 - [Capacitor](https://capacitorjs.com/)
 - [Capacitor Community Plugins](https://github.com/capacitor-community)
 <!-- /rdlabo-docs-omit -->
+
+<!-- rdlabo-docs-omit -->
+## Maintainers
+
+- [rdlabo](https://rdlabo.dev/)
+<!-- /rdlabo-docs-omit -->
