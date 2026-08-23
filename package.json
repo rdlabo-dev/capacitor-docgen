@@ -10,7 +10,7 @@
     "capacitor plugins"
   ],
   "author": "Masahiko Sakakibara<sakakibara@rdlabo.jp>",
-  "homepage": "https://capacitorjs.com/",
+  "homepage": "https://docs.rdlabo.dev/projects/capacitor-docgen",
   "bin": {
     "docgen": "bin/docgen"
   },
