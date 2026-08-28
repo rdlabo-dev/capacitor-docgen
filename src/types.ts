@@ -1,8 +1,13 @@
 export interface DocsData {
+  /** Primary plugin API. */
   api: DocsInterface | null;
+  /** Parsed interfaces. */
   interfaces: DocsInterface[];
+  /** Parsed type aliases. */
   typeAliases: DocsTypeAlias[];
+  /** Parsed enums. */
   enums: DocsEnum[];
+  /** Parsed Capacitor config interfaces. */
   pluginConfigs: DocsConfigInterface[];
 }
 
@@ -92,13 +97,18 @@ export interface DocsTagInfo {
 }
 
 export interface DocsParseOptions {
+  /** Optional TypeScript configuration path. */
   tsconfigPath?: string;
+  /** Optional explicit source files. */
   inputFiles?: string[];
 }
 
 export interface DocsGenerateOptions extends DocsParseOptions {
+  /** Primary plugin interface name. */
   api: string;
+  /** Optional JSON output path. */
   outputJsonPath?: string;
+  /** Optional README output path. */
   outputReadmePath?: string;
 }
 
