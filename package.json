@@ -22,7 +22,7 @@
     "fmt": "npm run prettier -- --write",
     "lint": "npm run prettier -- --check",
     "prettier": "prettier \"**/*.ts\"",
-    "release": "np --no-2fa",
+    "release": "np --no-tests --no-publish",
     "test": "jest",
     "test.watch": "jest --watchAll",
     "test.output": "node bin/docgen --project src/test/fixtures/tsconfig.json --api HapticsPlugin --output-readme src/test/README.md --output-json src/test/docs.json",
