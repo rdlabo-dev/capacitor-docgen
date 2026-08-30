@@ -64,30 +64,31 @@ function collectInterfaces(
   enums: DocsEnum[],
 ) {
   if (i.extends.length > 0) {
-    i.extends = i.extends.flatMap(e => {
+    i.extends = i.extends.flatMap((e) => {
       if (interfaces.some((i) => i.name === e)) {
         return e;
       }
-      const ti = typeAliases.find(t => t.name === e);
+      const ti = typeAliases.find((t) => t.name === e);
       if (ti === undefined) {
         return e;
       }
-      const complexTypes = ti.types.map(type => type.complexTypes).flat()
+      const complexTypes = ti.types.map((type) => type.complexTypes).flat();
       if (complexTypes.length === 0) {
         return e;
       }
       return complexTypes;
     });
 
-    const extendsInterfaces = interfaces
-      .filter(docs => i.extends.includes(docs.name));
+    const extendsInterfaces = interfaces.filter((docs) => i.extends.includes(docs.name));
     if (extendsInterfaces.length > 0) {
-      i.methods = i.methods.concat(extendsInterfaces.map(i => i.methods).flat(1)).filter((elem, index, self) =>  {
+      i.methods = i.methods.concat(extendsInterfaces.map((i) => i.methods).flat(1)).filter((elem, index, self) => {
         return self.indexOf(elem) === index;
       });
-      i.properties = i.properties.concat(extendsInterfaces.map(i => i.properties).flat(1)).filter((elem, index, self) =>  {
-        return self.indexOf(elem) === index;
-      });
+      i.properties = i.properties
+        .concat(extendsInterfaces.map((i) => i.properties).flat(1))
+        .filter((elem, index, self) => {
+          return self.indexOf(elem) === index;
+        });
     }
   }
 
@@ -166,9 +167,12 @@ function parseSourceFile(
 function getInterface(typeChecker: ts.TypeChecker, node: ts.InterfaceDeclaration) {
   const interfaceName = node.name.text;
 
-  const heritage = node.heritageClauses?.map(clause => {
-    return clause.types.map(t => t.expression.getText());
-  }).flat() || []
+  const heritage =
+    node.heritageClauses
+      ?.map((clause) => {
+        return clause.types.map((t) => t.expression.getText());
+      })
+      .flat() || [];
 
   const methods = node.members.filter(ts.isMethodSignature).reduce((methods, methodSignature) => {
     const m = getInterfaceMethod(typeChecker, methodSignature);
